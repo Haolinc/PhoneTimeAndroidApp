@@ -27,6 +27,9 @@ public class WorkerClass extends Worker {
             try {
                 //wait for 1 second
                 Thread.sleep(1000);
+
+                if (isStopped())
+                    break;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

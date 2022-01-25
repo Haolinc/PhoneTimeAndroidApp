@@ -44,17 +44,21 @@ public class MainActivity extends AppCompatActivity {
             data.saveCalled(true);
         }
 
-        //intent to repeat doWork in WorkerClass every 15 minutes
-        PeriodicWorkRequest saveRequest = new PeriodicWorkRequest.Builder(WorkerClass.class, 15, TimeUnit.MINUTES)
-                .build();
-        //intent to replace previous doWork background process, so the work can continue after user start the app
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork("Keep", ExistingPeriodicWorkPolicy.REPLACE, saveRequest);
+
 
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+
+        //intent to repeat doWork in WorkerClass every 15 minutes
+        PeriodicWorkRequest saveRequest = new PeriodicWorkRequest.Builder(WorkerClass.class, 15, TimeUnit.MINUTES)
+                .build();
+        //intent to replace previous doWork background process, so the work can continue after user start the app
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork("Keep", ExistingPeriodicWorkPolicy.REPLACE, saveRequest);
+
+
         //create thread to make textView change base on shared preference
         timer = new Timer();
         service.mainGui(this, guiHandler, mainGuiText, timer);
