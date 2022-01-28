@@ -16,9 +16,9 @@ import java.util.List;
 
 public class TimeListAdapter extends RecyclerView.Adapter<TimeListAdapter.ViewHolder>{
 
-    private List<String> dateList;
-    private List<String> totalTimeList;
-    private Context context;
+    private final List<String> dateList;
+    private final List<String> totalTimeList;
+    private final Context context;
 
     public TimeListAdapter(Context context, List<String> dateList, List<String> totalTimeList){
         this.dateList = dateList;
@@ -30,6 +30,7 @@ public class TimeListAdapter extends RecyclerView.Adapter<TimeListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("oncreateViewHolder", "called");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.time_list_items, parent, false);
         return new ViewHolder(view);
     }
@@ -46,7 +47,7 @@ public class TimeListAdapter extends RecyclerView.Adapter<TimeListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return dateList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
