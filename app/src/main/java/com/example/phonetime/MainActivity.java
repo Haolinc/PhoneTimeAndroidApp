@@ -5,24 +5,18 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.PowerManager;
-import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    Service service;
+    MainUIService mainUIService;
     TextView mainGuiText;
     Data data;
     Timer timer;
@@ -33,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //variables setup
-        service = new Service();
+        mainUIService = new MainUIService(this);
         mainGuiText = findViewById(R.id.TimeText);
         guiHandler = new Handler();
         data = Data.getInstance(this);
@@ -44,7 +38,17 @@ public class MainActivity extends AppCompatActivity {
             data.saveCalled(true);
         }
 
+        Button graphButton = findViewById(R.id.main_graphButton);
+        graphButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, UserStatisticActivity.class);
+            startActivity(intent);
+        });
 
+        Button listButton = findViewById(R.id.main_listButton);
+        listButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, TimeListActivity.class);
+            startActivity(intent);
+        });
 
     }
 
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         //create thread to make textView change base on shared preference
         timer = new Timer();
-        service.mainGui(this, guiHandler, mainGuiText, timer);
+        mainUIService.mainGui(guiHandler, mainGuiText, timer);
 
     }
 

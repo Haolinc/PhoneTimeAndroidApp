@@ -23,7 +23,7 @@ public class WorkerClass extends Worker {
     @NonNull
     @Override
     public Result doWork(){
-        for (int i=0;i<900;i++){
+        while(true){
             try {
                 //wait for 1 second
                 Thread.sleep(1000);
@@ -44,9 +44,12 @@ public class WorkerClass extends Worker {
         Log.d("workerThread:", ""+data.getTimeInSecondFromPreference());
 
         //if the date change, reset the time to 0
-        if (data.getDateFromPreference() != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)){
+        if (!data.getDateFromPreference().equals(data.convertTodayCalendarToString()) ){
+            data.saveUserDataDate(data.getDateFromPreference(), data.getTimeInSecondFromPreference());
+
             data.updateDate();
             data.saveTimeInSecond(0);
+
         }
 
         //only add when using the phone
@@ -55,4 +58,5 @@ public class WorkerClass extends Worker {
             data.saveTimeInSecond(data.getTimeInSecondFromPreference()+1);
         }
     }
+
 }
